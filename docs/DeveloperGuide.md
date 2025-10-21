@@ -14,7 +14,7 @@
 
 ## Project Overview
 
-CCStudio-Tunneler is a .NET 6.0 application that bridges OPC DA to OPC UA. The project consists of three main components:
+CCStudio-Tunneler is a .NET 8.0 LTS application that bridges OPC DA to OPC UA. The project consists of three main components:
 
 - **CCStudio.Tunneler.Core**: Shared library with models, interfaces, and services
 - **CCStudio.Tunneler.Service**: Windows service that handles OPC communication
@@ -22,8 +22,8 @@ CCStudio-Tunneler is a .NET 6.0 application that bridges OPC DA to OPC UA. The p
 
 ### Technology Stack
 
-- **.NET 6.0**: Target framework
-- **C# 10**: Programming language
+- **.NET 8.0 LTS**: Target framework (supported until November 2026)
+- **C# 12**: Programming language
 - **WPF**: UI framework
 - **Serilog**: Logging
 - **Newtonsoft.Json**: Configuration serialization
@@ -87,7 +87,7 @@ CCStudio-Tunneler is a .NET 6.0 application that bridges OPC DA to OPC UA. The p
 ### Prerequisites
 
 1. **Visual Studio 2022** (recommended) or Visual Studio Code
-2. **.NET 6.0 SDK** or later
+2. **.NET 8.0 SDK** (download: https://dotnet.microsoft.com/download/dotnet/8.0)
 3. **Git** for version control
 4. **OPC Core Components 3.0** for OPC DA testing
 
@@ -129,8 +129,8 @@ dotnet build -c Release
 
 ### Output Directories
 
-- Debug: `src/[ProjectName]/bin/Debug/net6.0-windows/`
-- Release: `src/[ProjectName]/bin/Release/net6.0-windows/`
+- Debug: `src/[ProjectName]/bin/Debug/net8.0-windows/`
+- Release: `src/[ProjectName]/bin/Release/net8.0-windows/`
 
 ## Project Structure
 

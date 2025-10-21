@@ -8,8 +8,9 @@
    - Workload: ".NET Desktop Development"
    - Workload: "Windows Application Development"
 
-2. **.NET 6.0 SDK** or later
-   - Download: https://dotnet.microsoft.com/download
+2. **.NET 8.0 SDK**
+   - Download: https://dotnet.microsoft.com/download/dotnet/8.0
+   - Click "x64" under SDK 8.0.121 (Windows)
 
 3. **Git** for version control
    - Download: https://git-scm.com/
@@ -44,9 +45,9 @@ dotnet build src/CCStudio.Tunneler.Service/CCStudio.Tunneler.Service.csproj -c R
 After building, output will be in:
 
 ```
-src/CCStudio.Tunneler.Core/bin/Release/net6.0/
-src/CCStudio.Tunneler.Service/bin/Release/net6.0-windows/
-src/CCStudio.Tunneler.TrayApp/bin/Release/net6.0-windows/
+src/CCStudio.Tunneler.Core/bin/Release/net8.0/
+src/CCStudio.Tunneler.Service/bin/Release/net8.0-windows/
+src/CCStudio.Tunneler.TrayApp/bin/Release/net8.0-windows/
 ```
 
 ### Building Each Component
@@ -92,7 +93,7 @@ dotnet publish -c Release -r win-x64 --self-contained false
 
 Output will be in:
 ```
-src/[ProjectName]/bin/Release/net6.0-windows/win-x64/publish/
+src/[ProjectName]/bin/Release/net8.0-windows/win-x64/publish/
 ```
 
 ## Creating Distribution Packages
@@ -105,8 +106,8 @@ dotnet publish -c Release -r win-x64 --self-contained true
 
 # Create distribution folder
 mkdir -p dist/portable
-cp -r src/CCStudio.Tunneler.Service/bin/Release/net6.0-windows/win-x64/publish/* dist/portable/Service/
-cp -r src/CCStudio.Tunneler.TrayApp/bin/Release/net6.0-windows/win-x64/publish/* dist/portable/TrayApp/
+cp -r src/CCStudio.Tunneler.Service/bin/Release/net8.0-windows/win-x64/publish/* dist/portable/Service/
+cp -r src/CCStudio.Tunneler.TrayApp/bin/Release/net8.0-windows/win-x64/publish/* dist/portable/TrayApp/
 cp images/* dist/portable/
 cp README.md LICENSE dist/portable/
 
@@ -232,7 +233,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
 
     - name: Restore dependencies
       run: dotnet restore
@@ -250,7 +251,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: ccstudio-tunneler
-        path: src/*/bin/Release/net6.0-windows/win-x64/publish/
+        path: src/*/bin/Release/net8.0-windows/win-x64/publish/
 ```
 
 ## Troubleshooting Build Issues
@@ -283,8 +284,9 @@ Build → Rebuild Solution
 # Check installed SDKs
 dotnet --list-sdks
 
-# Install .NET 6.0 SDK if missing
-# Download from https://dotnet.microsoft.com/download/dotnet/6.0
+# Should show 8.0.xxx or higher
+# Install .NET 8.0 SDK if missing
+# Download from https://dotnet.microsoft.com/download/dotnet/8.0
 ```
 
 ### WPF Build Errors

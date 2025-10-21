@@ -26,7 +26,7 @@ CCStudio-Tunneler is a Windows application that bridges legacy OPC DA (DCOM-base
 - **Disk Space**: 100 MB
 - **Network**: TCP port 4840 (configurable)
 - **Prerequisites**:
-  - .NET 6.0 Runtime or later
+  - .NET 8.0 Runtime or later
   - OPC Core Components 3.0 (for OPC DA)
 
 ## Installation

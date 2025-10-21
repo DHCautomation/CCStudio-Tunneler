@@ -29,7 +29,7 @@ CCStudio-Tunneler enables legacy OPC DA (DCOM-based) devices and systems to comm
 ### Requirements
 
 - Windows 10/11 or Windows Server 2016+
-- .NET 6.0 Runtime or later
+- .NET 8.0 Runtime or later
 - OPC Core Components 3.0 (for OPC DA)
 - Administrator rights (for service installation)
 
@@ -91,6 +91,7 @@ C:\ProgramData\DHC Automation\CCStudio-Tunneler\config.json
 ## System Requirements
 
 - **OS**: Windows 10/11, Windows Server 2016+
+- **.NET**: .NET 8.0 Runtime or later
 - **RAM**: 256 MB minimum, 512 MB recommended
 - **Disk**: 50 MB for installation
 - **Network**: TCP port 4840 (configurable)
@@ -144,6 +145,9 @@ cd CCStudio-Tunneler
 dotnet restore
 dotnet build
 ```
+
+**Requirements for Development:**
+- .NET 8.0 SDK: https://dotnet.microsoft.com/download/dotnet/8.0
 
 ### Running Tests
 

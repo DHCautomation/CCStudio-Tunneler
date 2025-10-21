@@ -7,7 +7,7 @@
 **Developer**: DHC Automation and Controls
 **License**: MIT
 **Version**: 1.0.0
-**Target Platform**: Windows 10/11, .NET 6.0
+**Target Platform**: Windows 10/11, .NET 8.0 LTS
 
 ## Project Statistics
 
@@ -85,8 +85,8 @@ CCStudio-Tunneler/
 ## Technology Stack
 
 ### Core Technologies
-- **.NET 6.0**: Modern, performant framework
-- **C# 10**: Latest language features
+- **.NET 8.0 LTS**: Modern, performant framework (supported until Nov 2026)
+- **C# 12**: Latest language features
 - **WPF**: Native Windows UI
 - **Windows Services**: Background service hosting
 

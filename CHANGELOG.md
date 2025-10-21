@@ -65,7 +65,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Configuration folder access
 
 ### Technical Details
-- Built on .NET 6.0
+- Built on .NET 8.0 LTS (Long Term Support until November 2026)
 - Uses OPC Foundation UA .NET Standard (open-source)
 - Serilog for structured logging
 - Material Design themes for modern UI
@@ -86,7 +86,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Requirements
 - Windows 10/11 or Windows Server 2016+
-- .NET 6.0 Runtime
+- .NET 8.0 Runtime
 - OPC Core Components 3.0
 - 512 MB RAM minimum
 - TCP port 4840 (configurable)
