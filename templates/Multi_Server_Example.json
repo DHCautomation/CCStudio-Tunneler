@@ -1,0 +1,79 @@
+{
+  "$schema": "Configuration Template",
+  "Name": "Multi-Server Example - HVAC + Lighting + Security",
+  "Description": "Example configuration showing multiple OPC DA servers connected simultaneously",
+  "OpcDaSources": [
+    {
+      "Id": "HVAC_System",
+      "Name": "Building HVAC",
+      "UaNamespace": "HVAC",
+      "Enabled": true,
+      "Configuration": {
+        "ServerProgId": "ASI.OPCServer.1",
+        "ServerHost": "localhost",
+        "UpdateRate": 10000,
+        "DeadBand": 1.0,
+        "Tags": ["*"],
+        "AutoDiscoverTags": true,
+        "ConnectionTimeout": 30,
+        "MaxReconnectAttempts": 0,
+        "ReconnectDelay": 5
+      }
+    },
+    {
+      "Id": "Lighting_System",
+      "Name": "Building Lighting",
+      "UaNamespace": "Lighting",
+      "Enabled": true,
+      "Configuration": {
+        "ServerProgId": "Lighting.OPCServer.1",
+        "ServerHost": "10.1.1.51",
+        "UpdateRate": 5000,
+        "DeadBand": 0.0,
+        "Tags": ["*"],
+        "AutoDiscoverTags": true,
+        "ConnectionTimeout": 30,
+        "MaxReconnectAttempts": 0,
+        "ReconnectDelay": 5
+      }
+    },
+    {
+      "Id": "Security_System",
+      "Name": "Building Security",
+      "UaNamespace": "Security",
+      "Enabled": true,
+      "Configuration": {
+        "ServerProgId": "Security.OPCServer.1",
+        "ServerHost": "10.1.1.52",
+        "UpdateRate": 2000,
+        "DeadBand": 0.0,
+        "Tags": ["*"],
+        "AutoDiscoverTags": true,
+        "ConnectionTimeout": 30,
+        "MaxReconnectAttempts": 0,
+        "ReconnectDelay": 5
+      }
+    }
+  ],
+  "OpcUa": {
+    "ServerPort": 4840,
+    "ServerName": "CCStudio Tunneler - Multi-Server",
+    "EndpointUrl": "opc.tcp://localhost:4840",
+    "SecurityMode": "None",
+    "AllowAnonymous": true,
+    "ApplicationName": "CCStudio-Tunneler",
+    "ApplicationUri": "urn:DHCAutomation:CCStudio-Tunneler:MultiServer",
+    "ProductUri": "https://dhcautomation.com/ccstudio-tunneler"
+  },
+  "Logging": {
+    "Level": "Information",
+    "Path": "C:\\ProgramData\\DHC Automation\\CCStudio-Tunneler\\Logs",
+    "RetentionDays": 7,
+    "MaxFileSizeMB": 10,
+    "EnableConsole": true
+  },
+  "TagMappings": [],
+  "EnableMetrics": true,
+  "ServiceName": "CCStudio-Tunneler",
+  "ServiceDescription": "OPC DA to OPC UA Bridge - Multi-Server Configuration"
+}

@@ -1,0 +1,62 @@
+{
+  "$schema": "Configuration Template",
+  "Name": "Johnson Controls Metasys - Building Automation",
+  "Description": "Pre-configured template for Johnson Controls Metasys BAS systems",
+  "OpcDaSources": [
+    {
+      "Id": "JCI_Metasys",
+      "Name": "Metasys BAS",
+      "UaNamespace": "Metasys",
+      "Enabled": true,
+      "Configuration": {
+        "ServerProgId": "JohnsonControls.Metasys.OPCServer",
+        "ServerHost": "localhost",
+        "UpdateRate": 5000,
+        "DeadBand": 0.5,
+        "Tags": ["*"],
+        "AutoDiscoverTags": true,
+        "ConnectionTimeout": 30,
+        "MaxReconnectAttempts": 0,
+        "ReconnectDelay": 5
+      }
+    }
+  ],
+  "OpcUa": {
+    "ServerPort": 4840,
+    "ServerName": "CCStudio Tunneler - Metasys",
+    "EndpointUrl": "opc.tcp://localhost:4840",
+    "SecurityMode": "None",
+    "AllowAnonymous": true,
+    "ApplicationName": "CCStudio-Tunneler",
+    "ApplicationUri": "urn:DHCAutomation:CCStudio-Tunneler:Metasys",
+    "ProductUri": "https://dhcautomation.com/ccstudio-tunneler"
+  },
+  "Logging": {
+    "Level": "Information",
+    "Path": "C:\\ProgramData\\DHC Automation\\CCStudio-Tunneler\\Logs",
+    "RetentionDays": 7,
+    "MaxFileSizeMB": 10,
+    "EnableConsole": true
+  },
+  "TagMappings": [
+    {
+      "DaTagName": "Site.*.*",
+      "UaNodeName": "Metasys/Site",
+      "Enabled": true,
+      "AccessLevel": "ReadWrite",
+      "UpdateRate": 10000,
+      "Description": "Metasys Site hierarchy - all points"
+    },
+    {
+      "DaTagName": "NAE*.*.*",
+      "UaNodeName": "Metasys/NAE",
+      "Enabled": true,
+      "AccessLevel": "ReadWrite",
+      "UpdateRate": 10000,
+      "Description": "Network Automation Engines - all points"
+    }
+  ],
+  "EnableMetrics": true,
+  "ServiceName": "CCStudio-Tunneler",
+  "ServiceDescription": "OPC DA to OPC UA Bridge for Johnson Controls Metasys"
+}

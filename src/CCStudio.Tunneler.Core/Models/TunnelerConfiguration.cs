@@ -6,9 +6,16 @@ namespace CCStudio.Tunneler.Core.Models;
 public class TunnelerConfiguration
 {
     /// <summary>
-    /// OPC DA client configuration
+    /// OPC DA client configuration (single server - legacy)
+    /// Maintained for backward compatibility
     /// </summary>
     public OpcDaConfiguration OpcDa { get; set; } = new();
+
+    /// <summary>
+    /// OPC DA server sources (multi-server support)
+    /// If empty, will use OpcDa property for single server
+    /// </summary>
+    public List<OpcDaSource> OpcDaSources { get; set; } = new();
 
     /// <summary>
     /// OPC UA server configuration

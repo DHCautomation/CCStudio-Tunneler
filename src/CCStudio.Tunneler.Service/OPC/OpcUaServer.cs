@@ -269,13 +269,8 @@ public class OpcUaServer : IOpcUaServer
 
     private StatusCode MapQuality(DataQuality quality)
     {
-        return quality switch
-        {
-            DataQuality.Good => StatusCodes.Good,
-            DataQuality.Bad => StatusCodes.Bad,
-            DataQuality.Uncertain => StatusCodes.Uncertain,
-            _ => StatusCodes.Good
-        };
+        // Use enhanced quality mapper for detailed status codes
+        return QualityMapper.MapDataQualityToUa(quality);
     }
 
     private async Task<ApplicationConfiguration> CreateApplicationConfiguration(OpcUaConfiguration config)

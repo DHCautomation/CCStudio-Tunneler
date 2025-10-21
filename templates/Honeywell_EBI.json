@@ -1,0 +1,55 @@
+{
+  "$schema": "Configuration Template",
+  "Name": "Honeywell EBI - Enterprise Buildings Integrator",
+  "Description": "Pre-configured template for Honeywell EBI building automation systems",
+  "OpcDaSources": [
+    {
+      "Id": "Honeywell_EBI",
+      "Name": "Honeywell EBI",
+      "UaNamespace": "EBI",
+      "Enabled": true,
+      "Configuration": {
+        "ServerProgId": "Honeywell.EBI.OPCServer",
+        "ServerHost": "localhost",
+        "UpdateRate": 10000,
+        "DeadBand": 1.0,
+        "Tags": ["*"],
+        "AutoDiscoverTags": true,
+        "ConnectionTimeout": 30,
+        "MaxReconnectAttempts": 0,
+        "ReconnectDelay": 5
+      }
+    }
+  ],
+  "OpcUa": {
+    "ServerPort": 4840,
+    "ServerName": "CCStudio Tunneler - Honeywell EBI",
+    "EndpointUrl": "opc.tcp://localhost:4840",
+    "SecurityMode": "None",
+    "AllowAnonymous": true,
+    "ApplicationName": "CCStudio-Tunneler",
+    "ApplicationUri": "urn:DHCAutomation:CCStudio-Tunneler:EBI",
+    "ProductUri": "https://dhcautomation.com/ccstudio-tunneler"
+  },
+  "Logging": {
+    "Level": "Information",
+    "Path": "C:\\ProgramData\\DHC Automation\\CCStudio-Tunneler\\Logs",
+    "RetentionDays": 7,
+    "MaxFileSizeMB": 10,
+    "EnableConsole": true
+  },
+  "TagMappings": [
+    {
+      "DaTagName": "*.*.*",
+      "UaNodeName": "EBI/Points",
+      "Enabled": true,
+      "AccessLevel": "ReadWrite",
+      "UpdateRate": 10000,
+      "Deadband": 1.0,
+      "Description": "All EBI points - customize after browsing"
+    }
+  ],
+  "EnableMetrics": true,
+  "ServiceName": "CCStudio-Tunneler",
+  "ServiceDescription": "OPC DA to OPC UA Bridge for Honeywell EBI"
+}
