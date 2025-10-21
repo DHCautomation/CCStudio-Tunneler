@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>..\..\images\CCStudio-Tunneler.ico</ApplicationIcon>
+    <Company>DHC Automation and Controls</Company>
+    <Product>CCStudio-Tunneler</Product>
+    <Version>1.0.0</Version>
+    <Authors>DHC Automation and Controls</Authors>
+    <Description>Configuration and monitoring UI for CCStudio-Tunneler</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
+    <PackageReference Include="MaterialDesignColors" Version="2.1.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CCStudio.Tunneler.Core\CCStudio.Tunneler.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="..\..\images\CCStudio-Tunneler.png" Link="Resources\Icon.png" />
+    <Resource Include="..\..\images\CCStudio-Tunneler-Logo.png" Link="Resources\Logo.png" />
+  </ItemGroup>
+
+</Project>

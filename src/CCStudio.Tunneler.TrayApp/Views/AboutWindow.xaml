@@ -1,0 +1,92 @@
+<Window x:Class="CCStudio.Tunneler.TrayApp.Views.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="About CCStudio-Tunneler"
+        Height="500"
+        Width="600"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        ResizeMode="NoResize">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header with Logo -->
+        <Border Grid.Row="0" Background="{StaticResource PrimaryBrush}" Padding="30">
+            <StackPanel HorizontalAlignment="Center">
+                <Image Source="/Resources/Logo.png" Height="120" Margin="0,0,0,15"/>
+                <TextBlock Text="CCStudio-Tunneler" FontSize="28" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                <TextBlock Text="OPC DA to OPC UA Bridge" FontSize="16" Foreground="White" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Content -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="30">
+            <StackPanel>
+                <TextBlock TextAlignment="Center" Margin="0,0,0,20">
+                    <Run Text="Version " FontWeight="Bold"/>
+                    <Run Text="1.0.0" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}"/>
+                </TextBlock>
+
+                <TextBlock Text="About" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,20">
+                    CCStudio-Tunneler bridges the gap between legacy OPC DA (DCOM-based)
+                    devices and modern OPC UA infrastructure. It enables cross-platform
+                    access to OPC DA data, allowing Linux machines and cloud-based systems
+                    like Mango M2M2 to seamlessly integrate with Windows-based OPC DA servers.
+                </TextBlock>
+
+                <TextBlock Text="Developed By" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,20">
+                    <Run Text="DHC Automation and Controls" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}"/>
+                    <LineBreak/>
+                    <LineBreak/>
+                    Specialists in Building Automation Systems and Industrial Control Solutions
+                </TextBlock>
+
+                <TextBlock Text="Key Features" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+                <StackPanel Margin="0,0,0,20">
+                    <TextBlock Text="✓ Seamless OPC DA to OPC UA protocol conversion" Margin="0,5,0,5"/>
+                    <TextBlock Text="✓ Cross-platform network access" Margin="0,5,0,5"/>
+                    <TextBlock Text="✓ Bidirectional read/write operations" Margin="0,5,0,5"/>
+                    <TextBlock Text="✓ Automatic reconnection and error recovery" Margin="0,5,0,5"/>
+                    <TextBlock Text="✓ Tag filtering and mapping" Margin="0,5,0,5"/>
+                    <TextBlock Text="✓ Windows Service with system tray management" Margin="0,5,0,5"/>
+                </StackPanel>
+
+                <TextBlock Text="License" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,20">
+                    MIT License - Copyright © 2025 DHC Automation and Controls
+                </TextBlock>
+
+                <TextBlock Text="Support" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+                <TextBlock TextWrapping="Wrap">
+                    For support, documentation, or inquiries:
+                    <LineBreak/>
+                    <Hyperlink NavigateUri="mailto:support@dhcautomation.com" RequestNavigate="OnNavigate">
+                        support@dhcautomation.com
+                    </Hyperlink>
+                    <LineBreak/>
+                    <Hyperlink NavigateUri="https://github.com/dhcautomation/ccstudio-tunneler" RequestNavigate="OnNavigate">
+                        GitHub Repository
+                    </Hyperlink>
+                </TextBlock>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Close Button -->
+        <Border Grid.Row="2" BorderBrush="LightGray" BorderThickness="0,1,0,0" Padding="30,15">
+            <Button Content="Close" Width="120" Height="40"
+                    Click="OnClose"
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource MaterialDesignRaisedButton}"
+                    Background="{StaticResource PrimaryBrush}"/>
+        </Border>
+    </Grid>
+</Window>

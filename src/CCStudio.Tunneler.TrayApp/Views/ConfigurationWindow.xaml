@@ -1,0 +1,200 @@
+<Window x:Class="CCStudio.Tunneler.TrayApp.Views.ConfigurationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="CCStudio-Tunneler Configuration"
+        Height="700"
+        Width="900"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        ResizeMode="CanResize">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,20">
+            <Image Source="/Resources/Logo.png" Height="80" HorizontalAlignment="Left" Margin="0,0,0,10"/>
+            <TextBlock Text="Configuration" FontSize="24" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}"/>
+            <TextBlock Text="Configure your OPC DA to OPC UA bridge settings" FontSize="14" Foreground="Gray"/>
+        </StackPanel>
+
+        <!-- Configuration Tabs -->
+        <TabControl Grid.Row="1" materialDesign:ColorZoneAssist.Mode="PrimaryMid">
+            <!-- OPC DA Tab -->
+            <TabItem Header="OPC DA Source">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="20">
+                        <TextBlock Text="OPC DA Server Configuration" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
+
+                        <TextBlock Text="Server ProgID" Margin="0,10,0,5"/>
+                        <ComboBox Name="CboServerProgId" IsEditable="True" Height="35"
+                                  materialDesign:HintAssist.Hint="Select or enter OPC DA Server ProgID">
+                            <ComboBoxItem Content="Matrikon.OPC.Simulation.1"/>
+                            <ComboBoxItem Content="KEPware.KEPServerEx.V6"/>
+                        </ComboBox>
+
+                        <TextBlock Text="Server Host" Margin="0,15,0,5"/>
+                        <TextBox Name="TxtServerHost" Text="localhost" Height="35"
+                                 materialDesign:HintAssist.Hint="localhost or IP address"/>
+
+                        <TextBlock Text="Update Rate (ms)" Margin="0,15,0,5"/>
+                        <TextBox Name="TxtUpdateRate" Text="1000" Height="35"
+                                 materialDesign:HintAssist.Hint="Minimum: 100ms"/>
+
+                        <TextBlock Text="Dead Band (%)" Margin="0,15,0,5"/>
+                        <TextBox Name="TxtDeadBand" Text="0" Height="35"
+                                 materialDesign:HintAssist.Hint="0-100"/>
+
+                        <CheckBox Name="ChkAutoDiscover" Content="Auto-discover tags" IsChecked="True" Margin="0,15,0,0"/>
+
+                        <Button Content="Test Connection" Margin="0,20,0,0" Height="40"
+                                Click="OnTestDaConnection"
+                                Style="{StaticResource MaterialDesignRaisedButton}"
+                                Background="{StaticResource PrimaryBrush}"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- OPC UA Tab -->
+            <TabItem Header="OPC UA Server">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="20">
+                        <TextBlock Text="OPC UA Server Configuration" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
+
+                        <TextBlock Text="Server Port" Margin="0,10,0,5"/>
+                        <TextBox Name="TxtOpcUaPort" Text="4840" Height="35"
+                                 materialDesign:HintAssist.Hint="Default: 4840"/>
+
+                        <TextBlock Text="Server Name" Margin="0,15,0,5"/>
+                        <TextBox Name="TxtServerName" Text="CCStudio Tunneler" Height="35"
+                                 materialDesign:HintAssist.Hint="Display name for OPC UA server"/>
+
+                        <TextBlock Text="Endpoint URL" Margin="0,15,0,5"/>
+                        <TextBox Name="TxtEndpointUrl" Text="opc.tcp://localhost:4840" Height="35"
+                                 materialDesign:HintAssist.Hint="Full OPC UA endpoint URL"/>
+
+                        <TextBlock Text="Security Mode" Margin="0,15,0,5"/>
+                        <ComboBox Name="CboSecurityMode" SelectedIndex="0" Height="35">
+                            <ComboBoxItem Content="None (No Security)"/>
+                            <ComboBoxItem Content="Sign"/>
+                            <ComboBoxItem Content="Sign and Encrypt"/>
+                        </ComboBox>
+
+                        <CheckBox Name="ChkAllowAnonymous" Content="Allow anonymous access" IsChecked="True" Margin="0,15,0,0"/>
+
+                        <Border BorderBrush="LightGray" BorderThickness="1" CornerRadius="5" Padding="15" Margin="0,15,0,0">
+                            <StackPanel>
+                                <TextBlock Text="Authentication (when not anonymous)" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                                <TextBlock Text="Username" Margin="0,5,0,5"/>
+                                <TextBox Name="TxtUsername" Height="35" IsEnabled="{Binding ElementName=ChkAllowAnonymous, Path=IsChecked, Converter={StaticResource InverseBooleanConverter}}"/>
+
+                                <TextBlock Text="Password" Margin="0,10,0,5"/>
+                                <PasswordBox Name="TxtPassword" Height="35" IsEnabled="{Binding ElementName=ChkAllowAnonymous, Path=IsChecked, Converter={StaticResource InverseBooleanConverter}}"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tag Mapping Tab -->
+            <TabItem Header="Tag Mapping">
+                <Grid Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Tag Mapping Configuration" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
+
+                    <DataGrid Grid.Row="1" Name="DgTagMappings" AutoGenerateColumns="False"
+                              CanUserAddRows="True" CanUserDeleteRows="True"
+                              materialDesign:DataGridAssist.CellPadding="10">
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn Header="Enabled" Binding="{Binding Enabled}" Width="80"/>
+                            <DataGridTextColumn Header="OPC DA Tag" Binding="{Binding DaTagName}" Width="*"/>
+                            <DataGridTextColumn Header="OPC UA Node" Binding="{Binding UaNodeName}" Width="*"/>
+                            <DataGridComboBoxColumn Header="Access" SelectedItemBinding="{Binding AccessLevel}" Width="120">
+                                <DataGridComboBoxColumn.ElementStyle>
+                                    <Style TargetType="ComboBox">
+                                        <Setter Property="ItemsSource" Value="{Binding AccessLevels}"/>
+                                    </Style>
+                                </DataGridComboBoxColumn.ElementStyle>
+                            </DataGridComboBoxColumn>
+                            <DataGridTextColumn Header="Units" Binding="{Binding EngineeringUnits}" Width="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+                        <Button Content="Browse DA Tags" Margin="0,0,10,0" Height="35"
+                                Click="OnBrowseDaTags"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"/>
+                        <Button Content="Import" Margin="0,0,10,0" Height="35"
+                                Click="OnImportMappings"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"/>
+                        <Button Content="Export" Height="35"
+                                Click="OnExportMappings"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- Logging Tab -->
+            <TabItem Header="Logging">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="20">
+                        <TextBlock Text="Logging Configuration" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
+
+                        <TextBlock Text="Log Level" Margin="0,10,0,5"/>
+                        <ComboBox Name="CboLogLevel" SelectedIndex="2" Height="35">
+                            <ComboBoxItem Content="Verbose"/>
+                            <ComboBoxItem Content="Debug"/>
+                            <ComboBoxItem Content="Information"/>
+                            <ComboBoxItem Content="Warning"/>
+                            <ComboBoxItem Content="Error"/>
+                            <ComboBoxItem Content="Fatal"/>
+                        </ComboBox>
+
+                        <TextBlock Text="Log Path" Margin="0,15,0,5"/>
+                        <DockPanel>
+                            <Button DockPanel.Dock="Right" Content="Browse..." Width="100" Margin="10,0,0,0" Height="35"
+                                    Click="OnBrowseLogPath"/>
+                            <TextBox Name="TxtLogPath" Height="35" IsReadOnly="True"
+                                     Text="C:\ProgramData\DHC Automation\CCStudio-Tunneler\Logs"/>
+                        </DockPanel>
+
+                        <TextBlock Text="Retention Days" Margin="0,15,0,5"/>
+                        <TextBox Name="TxtRetentionDays" Text="7" Height="35"/>
+
+                        <TextBlock Text="Max File Size (MB)" Margin="0,15,0,5"/>
+                        <TextBox Name="TxtMaxFileSize" Text="10" Height="35"/>
+
+                        <CheckBox Name="ChkEnableConsole" Content="Enable console logging" IsChecked="True" Margin="0,15,0,0"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+
+        <!-- Action Buttons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="Cancel" Width="100" Height="40" Margin="0,0,10,0"
+                    Click="OnCancel"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"/>
+            <Button Content="Save" Width="100" Height="40" Margin="0,0,10,0"
+                    Click="OnSave"
+                    Style="{StaticResource MaterialDesignRaisedButton}"
+                    Background="{StaticResource PrimaryBrush}"/>
+            <Button Content="Apply" Width="100" Height="40"
+                    Click="OnApply"
+                    Style="{StaticResource MaterialDesignRaisedButton}"
+                    Background="{StaticResource SecondaryBrush}"/>
+        </StackPanel>
+    </Grid>
+</Window>
