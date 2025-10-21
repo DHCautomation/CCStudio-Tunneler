@@ -1,0 +1,100 @@
+{
+  "$schema": "Single Server Configuration Example",
+  "Description": "Example: Single ASI Controls server (backward compatible with legacy config)",
+
+  "OpcDa": {
+    "ServerProgId": "ASI.OPCServer.1",
+    "ServerHost": "localhost",
+    "UpdateRate": 10000,
+    "DeadBand": 1.0,
+    "Tags": ["*"],
+    "IncludeFilters": [],
+    "ExcludeFilters": [],
+    "AutoDiscoverTags": false,
+    "ConnectionTimeout": 30,
+    "MaxReconnectAttempts": 0,
+    "ReconnectDelay": 5
+  },
+
+  "OpcUa": {
+    "ServerPort": 4840,
+    "ServerName": "CCStudio Tunneler - ASI Controls",
+    "EndpointUrl": "opc.tcp://localhost:4840",
+    "SecurityMode": "None",
+    "AllowAnonymous": true,
+    "ApplicationName": "CCStudio-Tunneler",
+    "ApplicationUri": "urn:DHCAutomation:CCStudio-Tunneler",
+    "ProductUri": "https://dhcautomation.com/ccstudio-tunneler",
+    "MaxSessionCount": 100,
+    "MaxSubscriptionCount": 100,
+    "MinPublishingInterval": 100,
+    "MaxPublishingInterval": 10000
+  },
+
+  "Logging": {
+    "Level": "Information",
+    "Path": "C:\\ProgramData\\DHC Automation\\CCStudio-Tunneler\\Logs",
+    "RetentionDays": 7,
+    "MaxFileSizeMB": 10,
+    "EnableConsole": true
+  },
+
+  "TagMappings": [
+    {
+      "DaTagName": "Building_01.AHU_01.SupplyAirTemp",
+      "UaNodeName": "HVAC/AHU01/SupplyTemp",
+      "NamespaceIndex": 2,
+      "Enabled": true,
+      "AccessLevel": "Read",
+      "DataType": null,
+      "ScaleFactor": null,
+      "Offset": null,
+      "Description": "AHU 1 Supply Air Temperature",
+      "EngineeringUnits": "degF",
+      "UpdateRate": 30000,
+      "Deadband": 0.5,
+      "ServerId": null,
+      "MinValue": 40.0,
+      "MaxValue": 85.0
+    },
+    {
+      "DaTagName": "Building_01.AHU_01.ReturnAirTemp",
+      "UaNodeName": "HVAC/AHU01/ReturnTemp",
+      "NamespaceIndex": 2,
+      "Enabled": true,
+      "AccessLevel": "Read",
+      "UpdateRate": 30000,
+      "Deadband": 0.5,
+      "Description": "AHU 1 Return Air Temperature",
+      "EngineeringUnits": "degF",
+      "MinValue": 50.0,
+      "MaxValue": 90.0
+    },
+    {
+      "DaTagName": "Building_01.AHU_01.SupplyFanSpeed",
+      "UaNodeName": "HVAC/AHU01/FanSpeed",
+      "NamespaceIndex": 2,
+      "Enabled": true,
+      "AccessLevel": "ReadWrite",
+      "UpdateRate": 10000,
+      "Deadband": 2.0,
+      "Description": "AHU 1 Supply Fan Speed",
+      "EngineeringUnits": "%",
+      "MinValue": 0.0,
+      "MaxValue": 100.0
+    },
+    {
+      "DaTagName": "Building_01.AHU_01.SupplyFanStatus",
+      "UaNodeName": "HVAC/AHU01/FanStatus",
+      "NamespaceIndex": 2,
+      "Enabled": true,
+      "AccessLevel": "Read",
+      "UpdateRate": 5000,
+      "Description": "AHU 1 Supply Fan Status"
+    }
+  ],
+
+  "EnableMetrics": true,
+  "ServiceName": "CCStudio-Tunneler",
+  "ServiceDescription": "OPC DA to OPC UA Bridge - ASI Controls"
+}
