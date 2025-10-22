@@ -1,7 +1,9 @@
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.ServiceProcess;
 using System.Windows;
+using System.Windows.Controls;
 using CCStudio.Tunneler.Core.Utilities;
 using CCStudio.Tunneler.TrayApp.Views;
 
@@ -220,26 +222,37 @@ public partial class MainWindow : Window
     {
         try
         {
-            var service = GetService();
-            if (service != null)
-            {
-                service.Refresh();
-                bool isRunning = service.Status == ServiceControllerStatus.Running;
+            // Get the menu items from the context menu resource
+            var contextMenu = (ContextMenu)this.FindResource("TrayContextMenu");
+            var serviceMenuItem = contextMenu.Items.OfType<MenuItem>().FirstOrDefault(m => m.Header.ToString() == "Service");
 
-                MenuStartService.IsEnabled = !isRunning;
-                MenuStopService.IsEnabled = isRunning;
-                MenuRestartService.IsEnabled = isRunning;
-
-                // Update tray icon tooltip
-                TrayIcon.ToolTipText = $"CCStudio-Tunneler - {(isRunning ? "Running" : "Stopped")}";
-            }
-            else
+            if (serviceMenuItem != null)
             {
-                // Service not installed
-                MenuStartService.IsEnabled = false;
-                MenuStopService.IsEnabled = false;
-                MenuRestartService.IsEnabled = false;
-                TrayIcon.ToolTipText = "CCStudio-Tunneler - Service Not Installed";
+                var menuStartService = serviceMenuItem.Items.OfType<MenuItem>().FirstOrDefault(m => m.Name == "MenuStartService");
+                var menuStopService = serviceMenuItem.Items.OfType<MenuItem>().FirstOrDefault(m => m.Name == "MenuStopService");
+                var menuRestartService = serviceMenuItem.Items.OfType<MenuItem>().FirstOrDefault(m => m.Name == "MenuRestartService");
+
+                var service = GetService();
+                if (service != null)
+                {
+                    service.Refresh();
+                    bool isRunning = service.Status == ServiceControllerStatus.Running;
+
+                    if (menuStartService != null) menuStartService.IsEnabled = !isRunning;
+                    if (menuStopService != null) menuStopService.IsEnabled = isRunning;
+                    if (menuRestartService != null) menuRestartService.IsEnabled = isRunning;
+
+                    // Update tray icon tooltip
+                    TrayIcon.ToolTipText = $"CCStudio-Tunneler - {(isRunning ? "Running" : "Stopped")}";
+                }
+                else
+                {
+                    // Service not installed
+                    if (menuStartService != null) menuStartService.IsEnabled = false;
+                    if (menuStopService != null) menuStopService.IsEnabled = false;
+                    if (menuRestartService != null) menuRestartService.IsEnabled = false;
+                    TrayIcon.ToolTipText = "CCStudio-Tunneler - Service Not Installed";
+                }
             }
         }
         catch

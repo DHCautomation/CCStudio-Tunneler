@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using CCStudio.Tunneler.Core.Models;
 using CCStudio.Tunneler.Core.Services;
 using CCStudio.Tunneler.Core.Utilities;
+using CCStudio.Tunneler.TrayApp.Services;
 using MessageBox = System.Windows.MessageBox;
 
 namespace CCStudio.Tunneler.TrayApp.Views;
@@ -14,13 +15,16 @@ public partial class ConfigurationWindow : Window
 {
     private readonly ConfigurationService _configService;
     private TunnelerConfiguration _configuration;
+    private List<OpcDaServerDiscovery.OpcServerInfo> _discoveredServers;
 
     public ConfigurationWindow()
     {
         InitializeComponent();
         _configService = new ConfigurationService();
         _configuration = new TunnelerConfiguration();
+        _discoveredServers = new List<OpcDaServerDiscovery.OpcServerInfo>();
         LoadConfiguration();
+        _ = DiscoverOpcServersAsync(); // Run discovery in background
     }
 
     private async void LoadConfiguration()
@@ -178,22 +182,135 @@ public partial class ConfigurationWindow : Window
         }
     }
 
-    private void OnTestDaConnection(object sender, RoutedEventArgs e)
+    /// <summary>
+    /// Discovers OPC DA servers on the local machine and populates the dropdown
+    /// </summary>
+    private async Task DiscoverOpcServersAsync()
     {
-        // TODO: Implement OPC DA connection test
-        MessageBox.Show(
-            "OPC DA connection test will be implemented with the OPC DA client library.",
-            "Not Implemented",
-            MessageBoxButton.OK,
-            MessageBoxImage.Information);
+        try
+        {
+            // Show loading indicator (would need to add to UI)
+            this.Cursor = System.Windows.Input.Cursors.Wait;
+
+            await Task.Run(() =>
+            {
+                _discoveredServers = OpcDaServerDiscovery.DiscoverLocalServers();
+            });
+
+            // Populate ComboBox on UI thread
+            Dispatcher.Invoke(() =>
+            {
+                CboServerProgId.Items.Clear();
+
+                foreach (var server in _discoveredServers)
+                {
+                    var item = new System.Windows.Controls.ComboBoxItem
+                    {
+                        Content = server.ToString(),
+                        Tag = server.ProgId
+                    };
+                    CboServerProgId.Items.Add(item);
+                }
+
+                // Add common servers that might not be discovered
+                var commonProgIds = OpcDaServerDiscovery.GetCommonProgIds();
+                foreach (var progId in commonProgIds)
+                {
+                    if (!_discoveredServers.Any(s => s.ProgId.Equals(progId, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        var item = new System.Windows.Controls.ComboBoxItem
+                        {
+                            Content = $"{progId} (not detected)",
+                            Tag = progId
+                        };
+                        CboServerProgId.Items.Add(item);
+                    }
+                }
+
+                // If we had a ProgId configured, select it
+                if (!string.IsNullOrEmpty(_configuration.OpcDa.ServerProgId))
+                {
+                    CboServerProgId.Text = _configuration.OpcDa.ServerProgId;
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            // Silent failure - user can still enter ProgID manually
+            System.Diagnostics.Debug.WriteLine($"OPC server discovery failed: {ex.Message}");
+        }
+        finally
+        {
+            this.Cursor = System.Windows.Input.Cursors.Arrow;
+        }
+    }
+
+    private async void OnTestDaConnection(object sender, RoutedEventArgs e)
+    {
+        var progId = CboServerProgId.Text;
+        var host = TxtServerHost.Text;
+
+        if (string.IsNullOrWhiteSpace(progId))
+        {
+            MessageBox.Show(
+                "Please enter or select an OPC DA Server ProgID first.",
+                "Missing Information",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning);
+            return;
+        }
+
+        try
+        {
+            // Disable button during test
+            var button = sender as System.Windows.Controls.Button;
+            if (button != null)
+            {
+                button.IsEnabled = false;
+                button.Content = "Testing...";
+            }
+
+            this.Cursor = System.Windows.Input.Cursors.Wait;
+
+            var (isAccessible, message) = await OpcDaServerDiscovery.TestServerConnection(progId, host);
+
+            MessageBox.Show(
+                message,
+                isAccessible ? "Connection Successful" : "Connection Failed",
+                MessageBoxButton.OK,
+                isAccessible ? MessageBoxImage.Information : MessageBoxImage.Error);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(
+                $"Error testing connection: {ex.Message}",
+                "Error",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+        finally
+        {
+            var button = sender as System.Windows.Controls.Button;
+            if (button != null)
+            {
+                button.IsEnabled = true;
+                button.Content = "Test Connection";
+            }
+            this.Cursor = System.Windows.Input.Cursors.Arrow;
+        }
     }
 
     private void OnBrowseDaTags(object sender, RoutedEventArgs e)
     {
-        // TODO: Implement tag browser
+        // TODO: Implement tag browser - requires full COM interop implementation
         MessageBox.Show(
-            "Tag browser will be implemented with the OPC DA client library.",
-            "Not Implemented",
+            "Tag browsing is available when AutoDiscoverTags is enabled.\n\n" +
+            "The service will automatically discover and expose all available tags from the OPC DA server.\n\n" +
+            "Manual tag mapping is optional and only needed for:\n" +
+            "• Renaming tags\n" +
+            "• Applying transformations\n" +
+            "• Setting custom update rates per tag",
+            "Auto Tag Discovery",
             MessageBoxButton.OK,
             MessageBoxImage.Information);
     }

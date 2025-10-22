@@ -19,6 +19,7 @@
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
     <PackageReference Include="MaterialDesignColors" Version="2.1.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="..\..\images\CCStudio-Tunneler.ico" Link="Resources\Icon.ico" />
     <Resource Include="..\..\images\CCStudio-Tunneler.png" Link="Resources\Icon.png" />
     <Resource Include="..\..\images\CCStudio-Tunneler-Logo.png" Link="Resources\Logo.png" />
   </ItemGroup>

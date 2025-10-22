@@ -10,7 +10,6 @@ namespace CCStudio.Tunneler.TrayApp;
 /// </summary>
 public partial class App : Application
 {
-    private TaskbarIcon? _notifyIcon;
     private ILogger? _logger;
 
     protected override void OnStartup(StartupEventArgs e)
@@ -30,13 +29,12 @@ public partial class App : Application
         _logger.Information("CCStudio-Tunneler Tray App starting - v{Version}", Constants.Version);
         _logger.Information("Developed by {Company}", Constants.CompanyName);
 
-        // Create the notifyicon (it's a resource in MainWindow.xaml for now)
+        // The tray icon is managed by MainWindow.xaml
         _logger.Information("Tray application initialized");
     }
 
     protected override void OnExit(ExitEventArgs e)
     {
-        _notifyIcon?.Dispose();
         _logger?.Information("CCStudio-Tunneler Tray App exiting");
         base.OnExit(e);
     }

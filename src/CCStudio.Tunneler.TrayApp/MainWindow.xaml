@@ -70,7 +70,7 @@
     <!-- System Tray Icon -->
     <Grid>
         <tb:TaskbarIcon x:Name="TrayIcon"
-                        IconSource="Resources/Icon.png"
+                        IconSource="/Resources/Icon.ico"
                         ToolTipText="CCStudio-Tunneler - OPC DA to OPC UA Bridge"
                         ContextMenu="{StaticResource TrayContextMenu}"
                         TrayLeftMouseUp="OnTrayIconLeftClick">
