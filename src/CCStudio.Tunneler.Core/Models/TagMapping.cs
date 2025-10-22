@@ -54,6 +54,33 @@ public class TagMapping
     /// Engineering units (e.g., "degC", "PSI", "RPM")
     /// </summary>
     public string? EngineeringUnits { get; set; }
+
+    /// <summary>
+    /// Update rate for this tag in milliseconds (null = use global rate)
+    /// Allows per-tag optimization (e.g., slow-changing temps: 60000ms, critical alarms: 1000ms)
+    /// </summary>
+    public int? UpdateRate { get; set; }
+
+    /// <summary>
+    /// Deadband percentage for this tag (0-100, null = use global deadband)
+    /// Only send updates if value changes by this percentage
+    /// </summary>
+    public float? Deadband { get; set; }
+
+    /// <summary>
+    /// Server ID this tag belongs to (for multi-server support)
+    /// </summary>
+    public string? ServerId { get; set; }
+
+    /// <summary>
+    /// Minimum valid value (for validation)
+    /// </summary>
+    public double? MinValue { get; set; }
+
+    /// <summary>
+    /// Maximum valid value (for validation)
+    /// </summary>
+    public double? MaxValue { get; set; }
 }
 
 /// <summary>

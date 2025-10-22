@@ -1,0 +1,119 @@
+{
+  "$schema": "Multi-Server Configuration Example",
+  "Description": "Example: Multiple OPC DA servers (HVAC + Lighting) with namespace separation",
+
+  "OpcDaSources": [
+    {
+      "Id": "HVAC_System",
+      "Name": "Building HVAC",
+      "UaNamespace": "HVAC",
+      "Enabled": true,
+      "Configuration": {
+        "ServerProgId": "ASI.OPCServer.1",
+        "ServerHost": "localhost",
+        "UpdateRate": 10000,
+        "DeadBand": 1.0,
+        "Tags": ["*"],
+        "AutoDiscoverTags": false,
+        "ConnectionTimeout": 30,
+        "MaxReconnectAttempts": 0,
+        "ReconnectDelay": 5
+      }
+    },
+    {
+      "Id": "Lighting_System",
+      "Name": "Building Lighting",
+      "UaNamespace": "Lighting",
+      "Enabled": true,
+      "Configuration": {
+        "ServerProgId": "Lighting.OPCServer.1",
+        "ServerHost": "10.1.1.51",
+        "UpdateRate": 5000,
+        "DeadBand": 0.0,
+        "Tags": ["*"],
+        "AutoDiscoverTags": false,
+        "ConnectionTimeout": 30,
+        "MaxReconnectAttempts": 0,
+        "ReconnectDelay": 5
+      }
+    }
+  ],
+
+  "OpcUa": {
+    "ServerPort": 4840,
+    "ServerName": "CCStudio Tunneler - Multi-Server",
+    "EndpointUrl": "opc.tcp://localhost:4840",
+    "SecurityMode": "None",
+    "AllowAnonymous": true,
+    "ApplicationName": "CCStudio-Tunneler",
+    "ApplicationUri": "urn:DHCAutomation:CCStudio-Tunneler:MultiServer",
+    "ProductUri": "https://dhcautomation.com/ccstudio-tunneler"
+  },
+
+  "Logging": {
+    "Level": "Information",
+    "Path": "C:\\ProgramData\\DHC Automation\\CCStudio-Tunneler\\Logs",
+    "RetentionDays": 7,
+    "MaxFileSizeMB": 10,
+    "EnableConsole": true
+  },
+
+  "TagMappings": [
+    {
+      "DaTagName": "Building_01.AHU_01.SupplyAirTemp",
+      "UaNodeName": "AHU01/SupplyTemp",
+      "NamespaceIndex": 2,
+      "Enabled": true,
+      "AccessLevel": "Read",
+      "UpdateRate": 30000,
+      "Deadband": 0.5,
+      "Description": "AHU 1 Supply Air Temperature",
+      "EngineeringUnits": "degF",
+      "ServerId": "HVAC_System",
+      "MinValue": 40.0,
+      "MaxValue": 85.0
+    },
+    {
+      "DaTagName": "Building_01.AHU_01.FanSpeed",
+      "UaNodeName": "AHU01/FanSpeed",
+      "NamespaceIndex": 2,
+      "Enabled": true,
+      "AccessLevel": "ReadWrite",
+      "UpdateRate": 10000,
+      "Deadband": 2.0,
+      "Description": "AHU 1 Fan Speed",
+      "EngineeringUnits": "%",
+      "ServerId": "HVAC_System",
+      "MinValue": 0.0,
+      "MaxValue": 100.0
+    },
+    {
+      "DaTagName": "Floor_01.Zone_01.LightLevel",
+      "UaNodeName": "Floor1/Zone1/LightLevel",
+      "NamespaceIndex": 2,
+      "Enabled": true,
+      "AccessLevel": "ReadWrite",
+      "UpdateRate": 5000,
+      "Deadband": 5.0,
+      "Description": "Floor 1 Zone 1 Light Level",
+      "EngineeringUnits": "%",
+      "ServerId": "Lighting_System",
+      "MinValue": 0.0,
+      "MaxValue": 100.0
+    },
+    {
+      "DaTagName": "Floor_01.Zone_01.OccupancyStatus",
+      "UaNodeName": "Floor1/Zone1/Occupancy",
+      "NamespaceIndex": 2,
+      "Enabled": true,
+      "AccessLevel": "Read",
+      "UpdateRate": 2000,
+      "Description": "Floor 1 Zone 1 Occupancy Status",
+      "ServerId": "Lighting_System"
+    }
+  ],
+
+  "EnableMetrics": true,
+  "ServiceName": "CCStudio-Tunneler",
+  "ServiceDescription": "OPC DA to OPC UA Bridge - Multi-Server"
+}

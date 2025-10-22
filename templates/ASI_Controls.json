@@ -1,0 +1,138 @@
+{
+  "$schema": "Configuration Template",
+  "Name": "ASI Controls (WebCTRL-based) - Typical HVAC System",
+  "Description": "Pre-configured template for ASI Controls BAS systems. Common in schools, hospitals, and commercial buildings.",
+  "OpcDaSources": [
+    {
+      "Id": "ASI_HVAC",
+      "Name": "ASI Controls HVAC",
+      "UaNamespace": "HVAC",
+      "Enabled": true,
+      "Configuration": {
+        "ServerProgId": "ASI.OPCServer.1",
+        "ServerHost": "localhost",
+        "UpdateRate": 10000,
+        "DeadBand": 1.0,
+        "Tags": ["*"],
+        "AutoDiscoverTags": true,
+        "ConnectionTimeout": 30,
+        "MaxReconnectAttempts": 0,
+        "ReconnectDelay": 5
+      }
+    }
+  ],
+  "OpcUa": {
+    "ServerPort": 4840,
+    "ServerName": "CCStudio Tunneler - ASI Controls",
+    "EndpointUrl": "opc.tcp://localhost:4840",
+    "SecurityMode": "None",
+    "AllowAnonymous": true,
+    "ApplicationName": "CCStudio-Tunneler",
+    "ApplicationUri": "urn:DHCAutomation:CCStudio-Tunneler:ASI",
+    "ProductUri": "https://dhcautomation.com/ccstudio-tunneler"
+  },
+  "Logging": {
+    "Level": "Information",
+    "Path": "C:\\ProgramData\\DHC Automation\\CCStudio-Tunneler\\Logs",
+    "RetentionDays": 7,
+    "MaxFileSizeMB": 10,
+    "EnableConsole": true
+  },
+  "TagMappings": [
+    {
+      "DaTagName": "*.AHU_*.SupplyAirTemp",
+      "UaNodeName": "HVAC/AHU/SupplyAirTemp",
+      "Enabled": true,
+      "AccessLevel": "Read",
+      "UpdateRate": 30000,
+      "Deadband": 0.5,
+      "Description": "Supply air temperature sensors for all AHUs",
+      "EngineeringUnits": "degF",
+      "MinValue": 40.0,
+      "MaxValue": 85.0
+    },
+    {
+      "DaTagName": "*.AHU_*.ReturnAirTemp",
+      "UaNodeName": "HVAC/AHU/ReturnAirTemp",
+      "Enabled": true,
+      "AccessLevel": "Read",
+      "UpdateRate": 30000,
+      "Deadband": 0.5,
+      "Description": "Return air temperature sensors for all AHUs",
+      "EngineeringUnits": "degF",
+      "MinValue": 50.0,
+      "MaxValue": 90.0
+    },
+    {
+      "DaTagName": "*.AHU_*.SupplyFanSpeed",
+      "UaNodeName": "HVAC/AHU/SupplyFanSpeed",
+      "Enabled": true,
+      "AccessLevel": "ReadWrite",
+      "UpdateRate": 10000,
+      "Deadband": 2.0,
+      "Description": "Supply fan speed setpoints and feedback",
+      "EngineeringUnits": "%",
+      "MinValue": 0.0,
+      "MaxValue": 100.0
+    },
+    {
+      "DaTagName": "*.AHU_*.SupplyFanStatus",
+      "UaNodeName": "HVAC/AHU/SupplyFanStatus",
+      "Enabled": true,
+      "AccessLevel": "Read",
+      "UpdateRate": 5000,
+      "Description": "Supply fan on/off status"
+    },
+    {
+      "DaTagName": "*.VAV_*.DamperPosition",
+      "UaNodeName": "HVAC/VAV/DamperPosition",
+      "Enabled": true,
+      "AccessLevel": "Read",
+      "UpdateRate": 30000,
+      "Deadband": 5.0,
+      "Description": "VAV box damper positions",
+      "EngineeringUnits": "%",
+      "MinValue": 0.0,
+      "MaxValue": 100.0
+    },
+    {
+      "DaTagName": "*.VAV_*.SpaceTemp",
+      "UaNodeName": "HVAC/VAV/SpaceTemp",
+      "Enabled": true,
+      "AccessLevel": "Read",
+      "UpdateRate": 60000,
+      "Deadband": 0.5,
+      "Description": "Zone temperature sensors",
+      "EngineeringUnits": "degF",
+      "MinValue": 60.0,
+      "MaxValue": 80.0
+    },
+    {
+      "DaTagName": "*.Chiller_*.ChilledWaterTemp",
+      "UaNodeName": "HVAC/Chiller/ChilledWaterTemp",
+      "Enabled": true,
+      "AccessLevel": "Read",
+      "UpdateRate": 30000,
+      "Deadband": 0.5,
+      "Description": "Chilled water supply temperature",
+      "EngineeringUnits": "degF",
+      "MinValue": 35.0,
+      "MaxValue": 60.0
+    },
+    {
+      "DaTagName": "*.Boiler_*.HotWaterTemp",
+      "UaNodeName": "HVAC/Boiler/HotWaterTemp",
+      "Enabled": true,
+      "AccessLevel": "Read",
+      "UpdateRate": 30000,
+      "Deadband": 1.0,
+      "Description": "Hot water supply temperature",
+      "EngineeringUnits": "degF",
+      "MinValue": 100.0,
+      "MaxValue": 200.0
+    }
+  ],
+  "EnableMetrics": true,
+  "ServiceName": "CCStudio-Tunneler",
+  "ServiceDescription": "OPC DA to OPC UA Bridge for ASI Controls"
+}

@@ -1,0 +1,55 @@
+{
+  "$schema": "Configuration Template",
+  "Name": "Siemens Desigo - Building Automation",
+  "Description": "Pre-configured template for Siemens Desigo BAS systems",
+  "OpcDaSources": [
+    {
+      "Id": "Siemens_Desigo",
+      "Name": "Siemens Desigo",
+      "UaNamespace": "Desigo",
+      "Enabled": true,
+      "Configuration": {
+        "ServerProgId": "Siemens.Desigo.OPC",
+        "ServerHost": "localhost",
+        "UpdateRate": 5000,
+        "DeadBand": 0.5,
+        "Tags": ["*"],
+        "AutoDiscoverTags": true,
+        "ConnectionTimeout": 30,
+        "MaxReconnectAttempts": 0,
+        "ReconnectDelay": 5
+      }
+    }
+  ],
+  "OpcUa": {
+    "ServerPort": 4840,
+    "ServerName": "CCStudio Tunneler - Siemens Desigo",
+    "EndpointUrl": "opc.tcp://localhost:4840",
+    "SecurityMode": "None",
+    "AllowAnonymous": true,
+    "ApplicationName": "CCStudio-Tunneler",
+    "ApplicationUri": "urn:DHCAutomation:CCStudio-Tunneler:Desigo",
+    "ProductUri": "https://dhcautomation.com/ccstudio-tunneler"
+  },
+  "Logging": {
+    "Level": "Information",
+    "Path": "C:\\ProgramData\\DHC Automation\\CCStudio-Tunneler\\Logs",
+    "RetentionDays": 7,
+    "MaxFileSizeMB": 10,
+    "EnableConsole": true
+  },
+  "TagMappings": [
+    {
+      "DaTagName": "*.*.*",
+      "UaNodeName": "Desigo/Points",
+      "Enabled": true,
+      "AccessLevel": "ReadWrite",
+      "UpdateRate": 5000,
+      "Deadband": 0.5,
+      "Description": "All Desigo points - customize after browsing"
+    }
+  ],
+  "EnableMetrics": true,
+  "ServiceName": "CCStudio-Tunneler",
+  "ServiceDescription": "OPC DA to OPC UA Bridge for Siemens Desigo"
+}

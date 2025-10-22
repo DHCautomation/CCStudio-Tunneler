@@ -1,6 +1,37 @@
 namespace CCStudio.Tunneler.Core.Models;
 
 /// <summary>
+/// OPC DA server source (for multi-server support)
+/// </summary>
+public class OpcDaSource
+{
+    /// <summary>
+    /// Unique identifier for this server connection
+    /// </summary>
+    public string Id { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Friendly name for this server (e.g., "HVAC_System", "Lighting_System")
+    /// </summary>
+    public string Name { get; set; } = string.Empty;
+
+    /// <summary>
+    /// OPC UA namespace prefix for tags from this server (e.g., "HVAC", "Lighting")
+    /// </summary>
+    public string UaNamespace { get; set; } = string.Empty;
+
+    /// <summary>
+    /// OPC DA server configuration
+    /// </summary>
+    public OpcDaConfiguration Configuration { get; set; } = new();
+
+    /// <summary>
+    /// Enable this server connection
+    /// </summary>
+    public bool Enabled { get; set; } = true;
+}
+
+/// <summary>
 /// Configuration for OPC DA client connection
 /// </summary>
 public class OpcDaConfiguration

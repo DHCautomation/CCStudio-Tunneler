@@ -1,0 +1,96 @@
+{
+  "$schema": "Matrikon Simulation Server Test Configuration",
+  "Description": "Example: Test configuration using Matrikon OPC Simulation Server (free)",
+
+  "OpcDa": {
+    "ServerProgId": "Matrikon.OPC.Simulation.1",
+    "ServerHost": "localhost",
+    "UpdateRate": 1000,
+    "DeadBand": 0.0,
+    "Tags": ["*"],
+    "AutoDiscoverTags": false,
+    "ConnectionTimeout": 30,
+    "MaxReconnectAttempts": 0,
+    "ReconnectDelay": 5
+  },
+
+  "OpcUa": {
+    "ServerPort": 4840,
+    "ServerName": "CCStudio Tunneler - Test",
+    "EndpointUrl": "opc.tcp://localhost:4840",
+    "SecurityMode": "None",
+    "AllowAnonymous": true,
+    "ApplicationName": "CCStudio-Tunneler",
+    "ApplicationUri": "urn:DHCAutomation:CCStudio-Tunneler:Test",
+    "ProductUri": "https://dhcautomation.com/ccstudio-tunneler"
+  },
+
+  "Logging": {
+    "Level": "Debug",
+    "Path": "C:\\ProgramData\\DHC Automation\\CCStudio-Tunneler\\Logs",
+    "RetentionDays": 7,
+    "MaxFileSizeMB": 10,
+    "EnableConsole": true
+  },
+
+  "TagMappings": [
+    {
+      "DaTagName": "Random.Int1",
+      "UaNodeName": "Simulation/RandomInt1",
+      "NamespaceIndex": 2,
+      "Enabled": true,
+      "AccessLevel": "Read",
+      "UpdateRate": 1000,
+      "Description": "Random Integer 1 (0-100)"
+    },
+    {
+      "DaTagName": "Random.Int2",
+      "UaNodeName": "Simulation/RandomInt2",
+      "NamespaceIndex": 2,
+      "Enabled": true,
+      "AccessLevel": "Read",
+      "UpdateRate": 1000,
+      "Description": "Random Integer 2 (0-100)"
+    },
+    {
+      "DaTagName": "Random.Real4",
+      "UaNodeName": "Simulation/RandomReal4",
+      "NamespaceIndex": 2,
+      "Enabled": true,
+      "AccessLevel": "Read",
+      "UpdateRate": 1000,
+      "Description": "Random Float (0.0-1.0)"
+    },
+    {
+      "DaTagName": "Random.Real8",
+      "UaNodeName": "Simulation/RandomReal8",
+      "NamespaceIndex": 2,
+      "Enabled": true,
+      "AccessLevel": "Read",
+      "UpdateRate": 1000,
+      "Description": "Random Double (0.0-1.0)"
+    },
+    {
+      "DaTagName": "Bucket Brigade.Int1",
+      "UaNodeName": "Simulation/BucketInt1",
+      "NamespaceIndex": 2,
+      "Enabled": true,
+      "AccessLevel": "ReadWrite",
+      "UpdateRate": 1000,
+      "Description": "Bucket Brigade Integer 1 (writable)"
+    },
+    {
+      "DaTagName": "Bucket Brigade.Real4",
+      "UaNodeName": "Simulation/BucketReal4",
+      "NamespaceIndex": 2,
+      "Enabled": true,
+      "AccessLevel": "ReadWrite",
+      "UpdateRate": 1000,
+      "Description": "Bucket Brigade Float (writable)"
+    }
+  ],
+
+  "EnableMetrics": true,
+  "ServiceName": "CCStudio-Tunneler",
+  "ServiceDescription": "OPC DA to OPC UA Bridge - Matrikon Simulation Test"
+}
